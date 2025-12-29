@@ -56,4 +56,10 @@ public class ListFunctionsTool implements McpTool {
         
         return functions.toString();
     }
+
+    
+    @Override
+    public boolean isReadOnly() {
+        return true;
+    }
 }

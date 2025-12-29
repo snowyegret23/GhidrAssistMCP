@@ -27,7 +27,7 @@ else if (project.hasProperty("GHIDRA_INSTALL_DIR")) {
 	ghidraInstallDir = project.getProperty("GHIDRA_INSTALL_DIR")
 }
 else {
-	ghidraInstallDir = "<REPLACE>"
+	ghidraInstallDir = "F:\\Decompile\\ghidra_12.0_PUBLIC"
 }
 
 task distributeExtension {

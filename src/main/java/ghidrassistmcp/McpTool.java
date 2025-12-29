@@ -40,7 +40,10 @@ public interface McpTool {
      * backend.getActivePlugin().
      */
     default McpSchema.CallToolResult execute(Map<String, Object> arguments, Program currentProgram, GhidrAssistMCPBackend backend) {
-        // Default implementation delegates to the original method for backward compatibility
         return execute(arguments, currentProgram);
+    }
+    
+    default boolean isReadOnly() {
+        return false;
     }
 }

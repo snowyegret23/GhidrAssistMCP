@@ -74,4 +74,10 @@ public class GetFunctionInfoTool implements McpTool {
         
         return "Function not found: " + functionName;
     }
+
+    
+    @Override
+    public boolean isReadOnly() {
+        return true;
+    }
 }

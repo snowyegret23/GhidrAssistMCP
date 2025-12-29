@@ -129,4 +129,10 @@ public class DecompileFunctionTool implements McpTool {
             decompiler.dispose();
         }
     }
+
+    
+    @Override
+    public boolean isReadOnly() {
+        return true;
+    }
 }

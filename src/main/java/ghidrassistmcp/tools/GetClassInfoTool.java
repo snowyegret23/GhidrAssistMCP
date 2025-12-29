@@ -1004,4 +1004,10 @@ public class GetClassInfoTool implements McpTool {
         
         return result.toString();
     }
+
+    
+    @Override
+    public boolean isReadOnly() {
+        return true;
+    }
 }

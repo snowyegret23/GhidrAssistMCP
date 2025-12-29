@@ -167,4 +167,10 @@ public class FunctionXrefsTool implements McpTool {
         }
         return null;
     }
+
+    
+    @Override
+    public boolean isReadOnly() {
+        return true;
+    }
 }

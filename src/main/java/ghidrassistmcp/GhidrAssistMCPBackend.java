@@ -130,20 +130,27 @@ public class GhidrAssistMCPBackend implements McpBackend {
     public List<McpSchema.Tool> getAvailableTools() {
         List<McpSchema.Tool> toolList = new ArrayList<>();
         for (McpTool tool : tools.values()) {
-            // Only include enabled tools in the available tools list
             if (toolEnabledStates.getOrDefault(tool.getName(), true)) {
-                // Augment the schema with program_name parameter for multi-program support
                 McpSchema.JsonSchema augmentedSchema = augmentSchemaWithProgramName(tool.getInputSchema());
+
+                McpSchema.ToolAnnotations annotations = new McpSchema.ToolAnnotations(
+                    null,
+                    tool.isReadOnly(),
+                    null,
+                    null,
+                    null,
+                    null
+                );
 
                 toolList.add(McpSchema.Tool.builder()
                     .name(tool.getName())
                     .title(tool.getName())
                     .description(tool.getDescription())
                     .inputSchema(augmentedSchema)
+                    .annotations(annotations)
                     .build());
             }
         }
-        // Sort tools alphabetically by name for consistent ordering
         toolList.sort((a, b) -> a.name().compareToIgnoreCase(b.name()));
         return toolList;
     }

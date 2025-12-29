@@ -266,4 +266,10 @@ public class ListClassesTool implements McpTool {
         
         return null;
     }
+
+    
+    @Override
+    public boolean isReadOnly() {
+        return true;
+    }
 }

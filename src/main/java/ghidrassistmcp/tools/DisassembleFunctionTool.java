@@ -135,4 +135,10 @@ public class DisassembleFunctionTool implements McpTool {
         }
         return null;
     }
+
+    
+    @Override
+    public boolean isReadOnly() {
+        return true;
+    }
 }

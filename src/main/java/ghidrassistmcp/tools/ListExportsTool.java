@@ -107,4 +107,10 @@ public class ListExportsTool implements McpTool {
             .addTextContent(result.toString())
             .build();
     }
+
+    
+    @Override
+    public boolean isReadOnly() {
+        return true;
+    }
 }
