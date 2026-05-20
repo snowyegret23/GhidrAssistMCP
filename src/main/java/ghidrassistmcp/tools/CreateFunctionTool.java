@@ -132,7 +132,7 @@ public class CreateFunctionTool implements McpTool {
 
         StringBuilder sb = new StringBuilder();
         sb.append("Function created successfully:\n");
-        sb.append("  Name: ").append(func.getName()).append("\n");
+        sb.append("  Name: ").append(func.getName(true)).append("\n");
         sb.append("  Entry: ").append(func.getEntryPoint()).append("\n");
         sb.append("  Body size: ").append(func.getBody().getNumAddresses()).append(" bytes\n");
         sb.append("  Range: ").append(func.getBody().getMinAddress())
