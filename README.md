@@ -142,6 +142,15 @@ For a binary that is already imported into the project, use `-process` instead:
   -preScript GAMCPStartServerScript.java "host=127.0.0.1" "port=8080"
 ```
 
+To keep a headless MCP session open after analysis completes, run the server as a post-script with wait mode:
+
+```bash
+"$GHIDRA_INSTALL_DIR/support/analyzeHeadless" /tmp/ghidra-projects McpHeadless \
+  -process binary_name \
+  -scriptPath "$GHIDRASSISTMCP_EXT/ghidra_scripts" \
+  -postScript GAMCPStartServerScript.java "host=127.0.0.1" "port=8080" "wait=true"
+```
+
 MCP clients can connect to:
 
 ```text
@@ -150,7 +159,7 @@ SSE messages:    http://127.0.0.1:8080/message
 Streamable HTTP: http://127.0.0.1:8080/mcp
 ```
 
-The headless MCP server runs inside the `analyzeHeadless` JVM and uses the loaded `currentProgram`. Keep that process alive while clients are connected; when `analyzeHeadless` exits, the MCP server exits with it.
+The headless MCP server runs inside the `analyzeHeadless` JVM and uses the loaded `currentProgram`. The server holds a program consumer while it is running so MCP requests do not race against program database closure. Use `wait=true` when you want `analyzeHeadless` to stay open for interactive MCP clients; cancel the script or terminate the process to stop the server.
 
 ## Available Tools
 
@@ -179,6 +188,8 @@ GhidrAssistMCP provides 38 tools organized into categories. Several tools use an
 | `get_current_function` | Get function at current cursor position |
 | `get_function_stack_layout` | Get stack frame layout with variable offsets |
 | `get_basic_blocks` | Get basic block information for a function |
+| `create_function` | Create/define a function at an address |
+| `disassemble_at` | Disassemble code at an address |
 
 ### Binary Information
 
@@ -275,7 +286,7 @@ Rename multiple symbols in one operation.
 | ------ | ----------- |
 | `list` | List all available data types |
 | `get_info` | Get detailed data type information and structure definitions |
-| `set` | Set data type at a specific address |
+| `set` | Set data type at a specific address, including arrays with `array_count` or suffix syntax like `int[16]` |
 | `delete` | Delete a data type by name (optionally scoped by `category`) |
 
 #### `bookmarks` - Bookmark Management Tool
@@ -454,6 +465,54 @@ If multiple types share the same name across categories, pass `category` (or pas
 }
 ```
 
+### Set an Array Data Type
+
+```json
+{
+  "method": "tools/call",
+  "params": {
+    "name": "types",
+    "arguments": {
+      "action": "set",
+      "address": "0x00402000",
+      "data_type": "int[16]"
+    }
+  }
+}
+```
+
+Equivalent form:
+
+```json
+{
+  "method": "tools/call",
+  "params": {
+    "name": "types",
+    "arguments": {
+      "action": "set",
+      "address": "0x00402000",
+      "data_type": "int",
+      "array_count": 16
+    }
+  }
+}
+```
+
+### Create a Function
+
+```json
+{
+  "method": "tools/call",
+  "params": {
+    "name": "create_function",
+    "arguments": {
+      "address": "0x00401000",
+      "name": "mainWndProc"
+    }
+  }
+}
+```
+
 ### Rename Function (Action-Based)
 
 ```json
@@ -592,7 +651,7 @@ GhidrAssistMCP/
 - `rename_symbol`: `target_type: function|data|variable`
 - `comments`: `action: get|set|list|remove`
 - `variables`: `action: list|rename|set_type|set_prototype` with `scope: auto|local|global` for rename
-- `types`: `action: list|get_info|set|delete`
+- `types`: `action: list|get|set|create_struct|create_enum|create_typedef|delete`
 - `bookmarks`: `action: list|set|remove`
 - `xrefs`: `address|function` with `include_calls` parameter
 
