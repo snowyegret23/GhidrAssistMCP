@@ -202,8 +202,8 @@ GhidrAssistMCP provides 49 tools organized into categories. Several tools use an
 | `get_current_function` | Get function at current cursor position |
 | `get_function_stack_layout` | Get stack frame layout with variable offsets |
 | `get_basic_blocks` | Get basic block information for a function |
-| `create_function` | Create/define a function at an address |
-| `disassemble_at` | Disassemble code at an address |
+| `create_function` | Create/define a function at an address, optionally clearing existing data/code first |
+| `disassemble_at` | Disassemble code at an address, optionally clearing existing data/code in the range first |
 
 ### Binary Information
 
@@ -522,6 +522,23 @@ Equivalent form:
     "arguments": {
       "address": "0x00401000",
       "name": "mainWndProc"
+    }
+  }
+}
+```
+
+For overlays or mixed code/data regions where Ghidra defined code as data, clear the existing code unit or an explicit range first:
+
+```json
+{
+  "method": "tools/call",
+  "params": {
+    "name": "create_function",
+    "arguments": {
+      "address": "0x80012340",
+      "name": "ovl_init",
+      "clear_existing": true,
+      "clear_length": 256
     }
   }
 }
