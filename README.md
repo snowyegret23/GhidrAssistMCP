@@ -10,7 +10,7 @@ GhidrAssistMCP bridges the gap between AI-powered analysis tools and Ghidra's co
 
 - **MCP Server Integration**: Full Model Context Protocol server implementation using official SDK
 - **Dual HTTP Transports**: Supports SSE and Streamable HTTP transports for maximum client compatibility
-- **47 Built-in Tools**: Comprehensive set of analysis tools with action-based consolidation for cleaner APIs
+- **48 Built-in Tools**: Comprehensive set of analysis tools with action-based consolidation for cleaner APIs
 - **6 MCP Resources**: Static data resources for program info, functions, strings, imports, exports, and segments
 - **7 MCP Prompts**: Pre-built analysis prompts for common reverse engineering tasks
 - **Result Caching**: Intelligent caching system to improve performance for repeated queries
@@ -98,7 +98,7 @@ Shameless self-promotion: [GhidrAssist](https://github.com/jtang613/GhidrAssist)
 
 The Configuration tab allows you to:
 
-- **View all available tools** (47 total)
+- **View all available tools** (48 total)
 - **Enable/disable individual tools** using checkboxes
 - **Save configuration** to persist across sessions
 - **Monitor tool status** in real-time
@@ -163,7 +163,7 @@ The headless MCP server runs inside the `analyzeHeadless` JVM and uses the loade
 
 ## Available Tools
 
-GhidrAssistMCP provides 48 tools organized into categories. Several tools use an action-based API pattern where a single tool provides multiple related operations.
+GhidrAssistMCP provides 49 tools organized into categories. Several tools use an action-based API pattern where a single tool provides multiple related operations.
 
 ### Binary & Program Management
 
@@ -175,11 +175,12 @@ GhidrAssistMCP provides 48 tools organized into categories. Several tools use an
 | `close_program` | Close an open CodeBrowser program; changed programs require `save=true` or `ignore_changes=true` |
 | `import_file` | Import a host file into the current Ghidra project and optionally open it *(disabled by default)* |
 | `project_files` | List or delete files/folders in the active Ghidra project; deletion requires `confirm=true` |
+| `scripts` | List/read/create/delete/run Ghidra scripts *(disabled by default)* |
 | `assemble_code` | Assemble instruction text at an address and optionally patch it into program memory |
 | `patch_bytes` | Patch raw bytes in program memory at a given address |
 | `export_program` | Export the current program to disk (`binary` or `original_file`) *(disabled by default)* |
 
-> **Security-sensitive tools:** `import_file` and `export_program` are disabled by default because they interact with the host filesystem. Enable them explicitly in the plugin configuration UI when needed.
+> **Security-sensitive tools:** `import_file`, `scripts`, and `export_program` are disabled by default because they interact with the host filesystem or execute script code. Enable them explicitly in the plugin configuration UI when needed.
 > `project_files` deletes entries from the active Ghidra project database, not the original imported host files, and requires `confirm=true`.
 
 ### Auto Analysis
@@ -647,7 +648,7 @@ GhidrAssistMCP/
 │   ├── TraceNetworkDataPrompt.java
 │   ├── CompareFunctionsPrompt.java
 │   └── ReverseEngineerStructPrompt.java
-└── tools/                    # MCP Tools (47 total)
+└── tools/                    # MCP Tools (48 total)
     ├── Consolidated action-based tools
     ├── Analysis tools
     ├── Modification tools
@@ -670,6 +671,7 @@ GhidrAssistMCP/
 - `analysis_options`: `action: list|set|reset|save_preset|apply_preset|list_presets|delete_preset`
 - `analysis_control`: `action: status|cancel`
 - `project_files`: `action: list|delete`
+- `scripts`: `action: list|get|create|delete|run`
 
 **Tool Interface Methods**:
 

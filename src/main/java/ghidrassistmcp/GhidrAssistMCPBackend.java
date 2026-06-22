@@ -56,6 +56,7 @@ import ghidrassistmcp.tools.GetFunctionStackLayoutTool;
 import ghidrassistmcp.tools.GetFunctionStatisticsTool;
 import ghidrassistmcp.tools.GetHexdumpTool;
 import ghidrassistmcp.tools.GetTaskStatusTool;
+import ghidrassistmcp.tools.GhidraScriptsTool;
 import ghidrassistmcp.tools.ListDataTool;
 import ghidrassistmcp.tools.ListExportsTool;
 import ghidrassistmcp.tools.ListProgramsTool;
@@ -168,6 +169,8 @@ public class GhidrAssistMCPBackend implements McpBackend {
         // Register tools that are disabled by default (security-sensitive)
         registerTool(new ImportFileTool());
         toolEnabledStates.put("import_file", false); // disabled by default: exposes host file-system read access
+        registerTool(new GhidraScriptsTool());
+        toolEnabledStates.put("scripts", false); // disabled by default: creates/deletes/runs host-side Ghidra scripts
         registerTool(new ExportProgramTool());
         toolEnabledStates.put("export_program", false); // disabled by default: writes files to host filesystem
 
