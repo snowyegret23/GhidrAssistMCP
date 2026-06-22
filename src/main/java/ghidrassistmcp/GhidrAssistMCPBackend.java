@@ -27,6 +27,9 @@ import ghidrassistmcp.resources.McpResource;
 import ghidrassistmcp.resources.McpResourceRegistry;
 import ghidrassistmcp.resources.ProgramInfoResource;
 import ghidrassistmcp.resources.StringsResource;
+import ghidrassistmcp.tools.AnalysisControlTool;
+import ghidrassistmcp.tools.AnalysisOptionsTool;
+import ghidrassistmcp.tools.AnalyzeProgramTool;
 import ghidrassistmcp.tasks.McpTask;
 import ghidrassistmcp.tasks.McpTaskManager;
 import ghidrassistmcp.tools.AssembleCodeTool;
@@ -152,6 +155,11 @@ public class GhidrAssistMCPBackend implements McpBackend {
         registerTool(new OpenProgramTool());          // open_program: open/list project files in CodeBrowser
         registerTool(new AssembleCodeTool());         // assemble_code: assemble instructions and optionally patch bytes
         registerTool(new PatchBytesTool());           // patch_bytes: write patched bytes into program memory
+
+        // Register Auto Analysis tools
+        registerTool(new AnalysisOptionsTool());      // analysis_options: list/set/reset/save/apply presets
+        registerTool(new AnalyzeProgramTool());       // analyze_program: run Auto Analysis
+        registerTool(new AnalysisControlTool());      // analysis_control: status/cancel queued analysis
 
         // Register tools that are disabled by default (security-sensitive)
         registerTool(new ImportFileTool());
@@ -341,9 +349,10 @@ public class GhidrAssistMCPBackend implements McpBackend {
         // Create a reference to this backend for the async execution
         final GhidrAssistMCPBackend backend = this;
 
-        McpTask task = taskManager.submitTask(toolName, arguments, () -> {
+        McpTask task = taskManager.submitTask(toolName, arguments, taskContext -> {
             try {
-                McpSchema.CallToolResult result = tool.execute(arguments, targetProgram, backend);
+                McpSchema.CallToolResult result =
+                    tool.execute(arguments, targetProgram, backend, taskContext);
                 result = addActiveContextToResult(result, targetProgram);
                 notifyToolResponse(toolName, result);
                 return result;
