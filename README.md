@@ -163,7 +163,7 @@ The headless MCP server runs inside the `analyzeHeadless` JVM and uses the loade
 
 ## Available Tools
 
-GhidrAssistMCP provides 47 tools organized into categories. Several tools use an action-based API pattern where a single tool provides multiple related operations.
+GhidrAssistMCP provides 48 tools organized into categories. Several tools use an action-based API pattern where a single tool provides multiple related operations.
 
 ### Binary & Program Management
 
@@ -172,6 +172,7 @@ GhidrAssistMCP provides 47 tools organized into categories. Several tools use an
 | `get_binary_info` | Get basic program information (name, architecture, compiler, etc.) |
 | `list_binaries` | List all open programs across all CodeBrowser windows |
 | `open_program` | List/open project programs in CodeBrowser, with optional analysis prompt suppression and analysis-after-open task submission |
+| `close_program` | Close an open CodeBrowser program; changed programs require `save=true` or `ignore_changes=true` |
 | `import_file` | Import a host file into the current Ghidra project and optionally open it *(disabled by default)* |
 | `project_files` | List or delete files/folders in the active Ghidra project; deletion requires `confirm=true` |
 | `assemble_code` | Assemble instruction text at an address and optionally patch it into program memory |

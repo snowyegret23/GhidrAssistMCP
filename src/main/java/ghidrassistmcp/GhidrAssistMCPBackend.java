@@ -36,6 +36,7 @@ import ghidrassistmcp.tools.AssembleCodeTool;
 import ghidrassistmcp.tools.BookmarksTool;
 import ghidrassistmcp.tools.CancelTaskTool;
 import ghidrassistmcp.tools.ClassTool;
+import ghidrassistmcp.tools.CloseProgramTool;
 import ghidrassistmcp.tools.CommentsTool;
 import ghidrassistmcp.tools.CreateDataVarTool;
 import ghidrassistmcp.tools.CreateFunctionTool;
@@ -43,6 +44,7 @@ import ghidrassistmcp.tools.DisassembleAtTool;
 import ghidrassistmcp.tools.GetBasicBlocksTool;
 import ghidrassistmcp.tools.ImportFileTool;
 import ghidrassistmcp.tools.OpenProgramTool;
+import ghidrassistmcp.tools.ProjectFilesTool;
 import ghidrassistmcp.tools.ExportProgramTool;
 import ghidrassistmcp.tools.GetCodeTool;
 import ghidrassistmcp.tools.GetCurrentAddressTool;
@@ -153,6 +155,8 @@ public class GhidrAssistMCPBackend implements McpBackend {
 
         // Register project-level tools
         registerTool(new OpenProgramTool());          // open_program: open/list project files in CodeBrowser
+        registerTool(new CloseProgramTool());         // close_program: close open programs in CodeBrowser
+        registerTool(new ProjectFilesTool());         // project_files: list/delete project files and folders
         registerTool(new AssembleCodeTool());         // assemble_code: assemble instructions and optionally patch bytes
         registerTool(new PatchBytesTool());           // patch_bytes: write patched bytes into program memory
 
